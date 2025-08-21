@@ -1,0 +1,32 @@
+// Both code TC:O(n)
+//           SC:o(1)
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int n = prices.size();
+        int buyAtPrice = INT_MAX;
+        int maxProfit = 0;
+        for(int i=0; i<n; i++){
+            buyAtPrice = min(buyAtPrice, prices[i]);
+            maxProfit = max(maxProfit, prices[i] - buyAtPrice); 
+        }
+        return maxProfit;
+    }
+};
+
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int n = prices.size();
+        int buyAtPrice = prices[0];
+        int profit = 0;
+        for(int i=0; i<n; i++){
+            if(prices[i]<buyAtPrice){
+                buyAtPrice=prices[i];
+            }else{
+                profit = max(profit, prices[i] - buyAtPrice); 
+            }
+        }
+        return profit;
+    }
+};
