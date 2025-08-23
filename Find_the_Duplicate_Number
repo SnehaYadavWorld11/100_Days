@@ -1,23 +1,55 @@
-// using map 
-//TC:O(n)
-//SC:O(n)
+//TC: O(n^2)
+//SC: O(1)
+//TLD error
 class Solution {
 public:
     int findDuplicate(vector<int>& nums) {
-        unordered_map<int,int>mpp;
         for(int i=0;i<nums.size();i++){
-            mpp[nums[i]]++;
-        }
-
-        for(auto it:mpp){
-            if(it.second >= 2){
-                return it.first;
+            for(int j=0;j<nums.size();j++){
+                if(i!=j && nums[i]==nums[j]) return nums[i];          
             }
         }
-
         return 0;
     }
 };
 
+// TC:O(n)
+// SC:O(n)
+//pass all the test cases 
+class Solution {
+public:
+    int findDuplicate(vector<int>& nums) {
+        unordered_map<int,int>umpp;
+        for(int i=0;i<nums.size();i++){
+            umpp[nums[i]]++;
+        }
+        for(auto it:umpp){
+            if(it.second >= 2) return it.first;
+        }
+        return 0;
+    }
+};
 
+// TC:O(n)
+// SC:O(1)
+class Solution {
+public:
+    int findDuplicate(vector<int>& nums) {
+        int slow = nums[0];
+        int fast = nums[0];
+        slow = nums[slow];
+        fast = nums[nums[fast]];
 
+        while(slow!=fast){
+            slow = nums[slow];
+            fast = nums[nums[fast]];
+        }
+
+        slow = nums[0];
+        while(slow!=fast){
+            slow=nums[slow];
+            fast=nums[fast];
+        }
+        return slow;
+    }
+};
