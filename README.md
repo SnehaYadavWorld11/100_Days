@@ -2,7 +2,6 @@
 
 ![100 Days of Code](https://img.shields.io/badge/Challenge-100_Days_of_Code-blue?style=for-the-badge&logo=github)
 ![Start Date](https://img.shields.io/badge/Start_Date-2025--08--20-green?style=for-the-badge)
-![Progress](https://img.shields.io/badge/Progress-0%2F100-orange?style=for-the-badge)
 
 ## 🚀 About the Challenge
 
