@@ -1,26 +1,104 @@
+// TC:O(n^2)
+//SC:O(1)
+
+class Solution {
+public:
+    vector<int> productExceptSelf(vector<int>& nums) {
+        vector<int>result;
+        for(int i=0;i<nums.size();i++){
+            int product = 1;
+            for(int j=0;j<nums.size();j++){
+                if(i!=j){
+                    product*=nums[j];
+                }
+            }
+            result.push_back(product);
+        }
+        return result;
+    }
+};
+
+
+// TC:O(n)
+// SC:O(1)
+
+class Solution {
+public:
+    vector<int> productExceptSelf(vector<int>& nums) {
+        vector<int>result;
+        int product_withoutZero =1;
+        int product_withZero = 1;
+        int count =0;
+        for(int i=0;i<nums.size();i++){
+            if(nums[i]!=0) product_withoutZero*=nums[i];
+            if(nums[i]==0) count++;
+            product_withZero*=nums[i];
+        }
+        for(int i=0;i<nums.size();i++){
+            if(nums[i]!=0){
+                if(count>0){
+                    result.push_back(0);
+                }else{
+                    result.push_back(product_withZero/nums[i]);
+                }
+            }else{
+                if(count>1) result.push_back(0);
+                else result.push_back(product_withoutZero);
+            }
+        }
+        return result;
+    }
+};
+
+
 // TC:O(n)
 // SC:O(n)
 
 class Solution {
 public:
-    vector<int> productExceptSelf(vector<int>& nums) {
-        int n=nums.size();
+    vector<int> productExceptSelf(vector<int>& nums){
+        int n = nums.size();
+        vector<int>left(n);
         vector<int>right(n);
-        int product=1;
-        for(int i=n-1;i>=0;i--){
-            product*=nums[i];
-            right[i]=product;
+        left[0]=1;
+        right[n-1]=1;
+
+        for(int i=1;i<n;i++){
+            left[i] = left[i-1]*nums[i-1];
+        }
+        for(int i=n-2;i>=0;i--){
+            right[i] = right[i+1]*nums[i+1];
         }
 
-        int left=1;
-        vector<int> ans(n);
-        for(int i=0;i<=n-2;i++){
-            int val=left*right[i+1];
-            ans[i]=val;
-            left*=nums[i];
+        for(int i=0;i<n;i++){
+            left[i]=left[i]*right[i];
         }
-        ans[n-1]=left;
-        return ans;
+        return left;
+    }
+};
+
+
+// TC:O(n)
+// SC:O(1)
+
+class Solution {
+public:
+    vector<int> productExceptSelf(vector<int>& nums) {
+        int n=nums.size();
+        vector<int>result(n);
+        result[0]=1;
+        for(int i=1;i<n;i++){
+            result[i] = result[i-1]*nums[i-1];
+        }
+
+        int rp = 1;
+        for(int i=n-1;i>=0;i--){
+            result[i]*=rp;
+            rp*=nums[i];
+        }
+        return result;
   
     }
 };
+
+
