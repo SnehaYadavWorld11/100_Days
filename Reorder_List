@@ -1,0 +1,77 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+
+// TC:O(n)
+// SC:O(1) ignoring stack space
+class Solution {
+public:
+    ListNode* rLL(ListNode* head){
+        if(head==NULL || head->next==NULL) return head;
+
+        ListNode* newHead = rLL(head->next);
+        ListNode* rev = head->next;
+        rev->next = head;
+        head->next=NULL;
+        return newHead;
+    }
+    void reorderList(ListNode* head) {
+        ListNode* slow = head;
+        ListNode* fast = head;
+
+        while(fast && fast->next){
+            slow = slow->next;
+            fast=fast->next->next;
+        }
+
+        ListNode* rev = rLL(slow);
+
+        ListNode* curr = head;
+
+        while(rev->next !=NULL){
+            ListNode* currnext = curr->next;
+            ListNode* revnext = rev->next;
+
+            curr->next = rev;
+            rev->next = currnext;
+            curr = currnext;
+            rev = revnext;
+        }
+    }
+};
+
+
+// TC:O(n)
+// SC:O(1)
+class Solution {
+public:
+    ListNode* curr;
+    void rLL(ListNode* head){
+        if(head==NULL) return ;
+
+        rLL(head->next);
+
+        ListNode* temp = curr->next;
+
+        if(curr->next==NULL) return ;
+        else if(curr==head){
+            head->next=NULL;
+            return ;
+        }
+
+        curr->next=head;
+        head->next=temp==head?NULL:temp;
+        curr=temp;
+    }
+    void reorderList(ListNode* head) {
+        curr = head;
+        rLL(head);
+    }
+};
